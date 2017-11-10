@@ -1,0 +1,58 @@
+/*links, colors, bg*/
+h1,
+h1 a:link,
+h1 a:visited {
+  font: bold italic 28px arial, tahoma, verdana;
+}
+h2,
+h2 a:link,
+h2 a:visited {
+  font: bold italic 16px arial, tahoma, verdana;
+}
+h3,
+h3 a:link,
+h3 a:visited {
+  font: bold italic 14px arial, tahoma, verdana;
+}
+/*end links, colors, bg*/
+
+/*WRAPPER*/
+/*HEADER*/
+/*bar*/
+ul.bar {
+  left: 330px;
+}
+ul.bar li {
+  padding: 0px 10px 0px 15px;
+  font: bold italic 16px arial, tahoma, verdana;
+}
+/*end block_bar*/
+
+/*block_mainimg*/
+.sticker_midi span {
+  font: bold italic 15px arial, tahoma, verdana;
+}
+/*end block_mainimg*/
+
+/*userbar*/
+.userbar {
+  left: 350px;
+}
+/*end userbar*/
+
+/*artnews*/
+.artnews .title,
+.artnews .title a:link,
+.artnews .title a:visited {
+  font: bold italic 16px arial, tahoma, verdana;
+  color: #459300;
+}
+.artnews.faq .title,
+.artnews.faq .answ,
+.artnews.faq .title a:link,
+.artnews.faq .title a:visited {
+  font: bold italic 16px arial, tahoma, verdana;
+  color: #000000;
+}
+/*end artnews*/
+/*end HEADER*/

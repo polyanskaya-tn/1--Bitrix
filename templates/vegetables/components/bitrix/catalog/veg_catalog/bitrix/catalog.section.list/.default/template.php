@@ -10,7 +10,12 @@
 /** @var string $templateFolder */
 /** @var string $componentPath */
 /** @var CBitrixComponent $component */
+/*
+echo "<pre>";
+			var_dump($arResult);
+			echo "</pre>";
 
+*/
 $this->setFrameMode(true);
 
 $arViewModeList = $arResult['VIEW_MODE_LIST'];
@@ -134,52 +139,28 @@ if (0 < $arResult["SECTIONS_COUNT"])
 				{
 					?><p class="bx_catalog_line_description"><? echo $arSection['DESCRIPTION']; ?></p><?
 				}
-				
-
-			//get elements list (part of detail page)
-			$arFilter = array(
-					'IBLOCK_ID' => $arSection['IBLOCK_ID'],
-					'SECTION_ID' => $arSection['ID'],
-				);
-
-			$rsItems = CIBlockElement::GetList(
-						array('SORT' => 'ASC'),
-						$arFilter,
-						false,
-						false,
-						array('ID', 'DETAIL_PAGE_URL', 'PREVIEW_PICTURE', 'CODE')
-					); 
 			?>
 
 			<div class="nojCarouselLite">
 				<div class="nocarousel">
 					<ul>
 			<?				
-			while ($arItem = $rsItems->Fetch())
+			foreach ($arResult['ELEMENT_LIST'] as &$arElement)	
 			{
-				$arItem['PREVIEW_PICTURE'] = CFile::GetFileArray($arItem['PREVIEW_PICTURE']);
-				if (!is_array($arItem['PREVIEW_PICTURE']))
-					continue;
-
-				//get element URL (ЧПУ mode)
-				$pagePath = CComponentEngine::MakePathFromTemplate(
-  					$arItem['DETAIL_PAGE_URL'],
-    				array(
-        				"SECTION_ID" => $arSection['ID'],
-        				"ELEMENT_ID" => $arItem['ID'],
-        				"SECTION_CODE" => $arSection['CODE'],
-        				"ELEMENT_CODE" => $arItem['CODE']
-    				)
-				);
+				if ($arElement['SECTION_ID'] == $arSection['ID'])
+				{
 			?>
+
 			<li>
 				<div class="imgblock">
-					<a href="<?=$pagePath ?>">
-						<img id="<? echo $arItem['ID']; ?>" src="<? echo $arItem['PREVIEW_PICTURE']['SRC']; ?>" alt="<? echo $arItem['PREVIEW_PICTURE']['ALT']; ?>" title="<? echo $arItem['PREVIEW_PICTURE']['TITLE']; ?>">
+					<a href="<?=$arElement['DETAIL_PAGE_URL'] ?>">
+						<img src="<? echo $arElement['PREVIEW_PICTURE']['SRC']; ?>" alt="<? echo $arElement['PREVIEW_PICTURE']['ALT']; ?>" title="<? echo $arElement['PREVIEW_PICTURE']['TITLE']; ?>">
 					</a>
 				</div>
  			</li>
+ 			
 			<?
+				}
 			} 
 			?>
 					</ul>

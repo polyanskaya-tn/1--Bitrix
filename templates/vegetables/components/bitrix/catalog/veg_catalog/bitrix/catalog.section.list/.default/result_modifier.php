@@ -96,4 +96,51 @@ if (0 < $arResult['SECTIONS_COUNT'])
 		}
 	}
 }
+
+//get elements list (part of detail page)
+$arResult['ELEMENT_LIST'] = array();
+if (0 < $arResult['SECTIONS_COUNT'])
+{
+	foreach ($arResult['SECTIONS'] as &$arSection)
+	{	
+		$arFilter = array(
+			'IBLOCK_ID' => $arSection['IBLOCK_ID'],
+			'SECTION_ID' => $arSection['ID'],
+		);
+
+		$rsItems = CIBlockElement::GetList(
+			array('SORT' => 'ASC'),
+			$arFilter,
+			false,
+			false,
+			array('ID', 'NAME', 'DETAIL_PAGE_URL', 'PREVIEW_PICTURE', 'CODE')
+		); 
+
+		while ( $arItem = $rsItems->Fetch() )
+		{
+			$arElement = array();
+			$arElement['SECTION_ID'] = $arSection['ID'];
+			$arElement['PREVIEW_PICTURE'] = array(
+					'ALT' => $arItem['NAME'],
+					'TITLE' => $arItem['NAME']
+				);
+			$arElement['PREVIEW_PICTURE']['SRC'] = 
+				CFile::GetPath($arItem['PREVIEW_PICTURE']);
+
+			//get element URL (ЧПУ mode)
+			$arElement['DETAIL_PAGE_URL'] = CComponentEngine::MakePathFromTemplate(
+				$arItem['DETAIL_PAGE_URL'],
+				array(
+	   				"SECTION_ID" => $arSection['ID'],
+	   				"ELEMENT_ID" => $arItem['ID'],
+	   				"SECTION_CODE" => $arSection['CODE'],
+	   				"ELEMENT_CODE" => $arItem['CODE']
+				)
+			);
+
+			$arResult['ELEMENT_LIST'][] = $arElement;
+		}
+	}
+}
+
 ?>
